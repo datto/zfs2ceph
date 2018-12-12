@@ -15,6 +15,8 @@ License:        LGPLv2+
 URL:            https://github.com/datto/zfs2ceph
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 
+BuildRequires:  gcc
+BuildRequires:  make
 
 %description
 This tool can be inserted in a pipe between `zfs send` and `rbd import`,
@@ -25,17 +27,21 @@ allowing zvol snapshots to be sent to scalable, distributed storage.
 
 
 %build
-# No build steps yet...
+%make_build CCFLAGS="%{optflags}"
 
 %install
-# No install steps yet...
+mkdir -p %{buildroot}%{_bindir}
+install -pm 0755 %{name} %{buildroot}%{_bindir}/%{name}
 
 %files
-# No files yet other than the license
+%doc README.md
 %license LICENSE
-
+%{_bindir}/%{name}
 
 
 %changelog
+* Wed Dec 12 2018 Neal Gompa <ngompa@datto.com>
+- Set up package build
+
 * Mon Dec 10 2018 Neal Gompa <ngompa@datto.com>
 - Initial packaging skeleton
